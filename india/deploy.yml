@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: training
+---               
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+ name: my-dep
+ namespace: training
+spec:
+ replicas: 6
+ selector:
+  matchLabels:
+   fruit: apple
+ template:
+  metadata:
+   labels:
+    fruit: apple
+  spec:
+   containers:
+   - name: xyz
+     image: sreemanta15august/k8s-dep
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: my-svc1
+ namespace: training
+spec:
+ type: ClusterIP
+ ports:
+ - port: 8070
+   targetPort: 80
+ selector:
+  fruit: apple
+
